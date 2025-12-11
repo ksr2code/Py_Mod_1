@@ -145,33 +145,33 @@ class GardenManager:
 def ft_garden_analytics():
     """Demonstrate garden management system."""
     print("=== Garden Management System Demo ===\n")
-    
+
     # Create gardens using class method
     gardens = GardenManager.create_garden_network(["Alice", "Bob"])
     alice = gardens[0]
     bob = gardens[1]
-    
+
     # Add plants to Alice's garden
     alice.add_plant(Plant("Oak Tree", 100))
     alice.add_plant(FloweringPlant("Rose", 25, "red"))
     alice.add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
     print()
-    
+
     # Add plants to Bob's garden
     bob.add_plant(Plant("Cactus", 40))
     bob.add_plant(FloweringPlant("Tulip", 30, "pink"))
     print()
-    
+
     # Grow all plants
     alice.grow_all()
     print()
     bob.grow_all()
     print()
-    
+
     # Generate reports
     alice.generate_report()
     bob.generate_report()
-    
+
     # Display network statistics
     GardenManager.display_network()
 
