@@ -19,6 +19,7 @@ class Flower(Plant):
     """Represents Flower subclass of Plant class."""
 
     def __init__(self, name: str, height: int, age: int, color: str):
+        """Initialize a flower with parents and own attributes"""
         super().__init__(name, height, age)
         self.color = color
 
@@ -39,6 +40,7 @@ class Tree(Plant):
     """Represents Tree subclass of Plant class."""
 
     def __init__(self, name: str, height: int, age: int, trunk_diameter: int):
+        """Initialize a tree with parents and own attributes"""
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
 
@@ -60,6 +62,7 @@ class Vegetable(Plant):
     """Represents Vegetable subclass of Plant class."""
 
     def __init__(self, name, height, age, harvest_season, nutritional_value):
+        """Initialize a vegetable with parents and own attributes"""
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
