@@ -128,10 +128,10 @@ class GardenManager:
 
         scores = "Garden scores - "
         first = True
-        for owner in cls.all_gardens:
+        for k in cls.all_gardens:
             if not first:
                 scores += ", "
-            scores += f"{owner}: {cls.all_gardens[owner].stats.calculate_score()}"
+            scores += f"{k}: {cls.all_gardens[k].stats.calculate_score()}"
             first = False
         print(scores)
         print(f"Total gardens managed: {cls.total_gardens}")
