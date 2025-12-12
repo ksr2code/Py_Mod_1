@@ -44,7 +44,7 @@ class GardenManager:
     """Manages multiple gardens with analytics."""
 
     total_gardens = 0
-    all_gardens = []
+    all_gardens = {}
 
     class GardenStats:
         """Nested helper class for statistics."""
@@ -68,14 +68,14 @@ class GardenManager:
     def __init__(self, owner: str):
         """Instance method - create garden for owner."""
         self.owner = owner
-        self.plants = []
+        self.plants = {}
         self.stats = GardenManager.GardenStats()
         GardenManager.total_gardens += 1
-        GardenManager.all_gardens.append(self)
+        GardenManager.all_gardens[self.owner] = self
 
     def add_plant(self, plant: Plant):
         """Instance method - add plant to this garden."""
-        self.plants.append(plant)
+        self.plants[plant.name] = plant
         self.stats.total_plants += 1
         self.stats.total_height += plant.height
 
@@ -92,9 +92,9 @@ class GardenManager:
     def grow_all(self):
         """Instance method - grow all plants."""
         print(f"{self.owner} is helping all plants to grow...")
-        for plant in self.plants:
-            plant.height += 1
-            print(f"{plant.name} grew 1cm")
+        for k in self.plants:
+            self.plants[k].height += 1
+            print(f"{k} grew 1cm")
             self.stats.total_growth += 1
             self.stats.total_height += 1
 
@@ -102,8 +102,8 @@ class GardenManager:
         """Instance method - use GardenStats to show analytics."""
         print(f"=== {self.owner}'s Garden Report ===")
         print("Plants in garden:")
-        for plant in self.plants:
-            plant.get_info()
+        for k in self.plants:
+            self.plants[k].get_info()
         print()
         print(f"Plants added: {self.stats.total_plants}, "
               f"Total growth: {self.stats.total_growth}")
@@ -115,10 +115,9 @@ class GardenManager:
     @classmethod
     def create_garden_network(cls, owners: list):
         """Class method - create multiple gardens."""
-        gardens = []
+        gardens = {}
         for owner in owners:
-            garden = cls(owner)
-            gardens.append(garden)
+            gardens[owner] = cls(owner)
         return gardens
 
     @classmethod
@@ -127,17 +126,22 @@ class GardenManager:
         print(f"Height validation test: "
               f"{cls.validate_height(cls.all_gardens)}")
 
-        scores = ", ".join([f"{g.owner}: {g.stats.calculate_score()}"
-                            for g in cls.all_gardens])
-        print(f"Garden scores - {scores}")
+        scores = "Garden scores - "
+        first = True
+        for owner in cls.all_gardens:
+            if not first:
+                scores += ", "
+            scores += f"{owner}: {cls.all_gardens[owner].stats.calculate_score()}"
+            first = False
+        print(scores)
         print(f"Total gardens managed: {cls.total_gardens}")
 
     @staticmethod
-    def validate_height(gardens: list) -> bool:
+    def validate_height(gardens: dict) -> bool:
         """Static method - validate all plants have positive heights."""
-        for garden in gardens:
-            for plant in garden.plants:
-                if plant.height < 0:
+        for g in gardens:
+            for k in gardens[g].plants:
+                if gardens[g].plants[k].height < 0:
                     return False
         return True
 
@@ -148,8 +152,8 @@ def ft_garden_analytics():
 
     # Create gardens using class method
     gardens = GardenManager.create_garden_network(["Alice", "Bob"])
-    alice = gardens[0]
-    bob = gardens[1]
+    alice = gardens["Alice"]
+    bob = gardens["Bob"]
 
     # Add plants to Alice's garden
     alice.add_plant(Plant("Oak Tree", 100))
