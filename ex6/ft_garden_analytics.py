@@ -59,7 +59,7 @@ class GardenManager:
             self.total_height = 0
             self.total_prize_points = 0
 
-        def calculate_score(self) -> int:
+        def _calculate_score(self) -> int:
             """Calculate garden score from metrics."""
             score = self.total_height + self.total_prize_points
             score += self.total_growth * 10
@@ -124,20 +124,20 @@ class GardenManager:
     def display_network(cls):
         """Class method - display network statistics."""
         print(f"Height validation test: "
-              f"{cls.validate_height(cls.all_gardens)}")
+              f"{cls._validate_height(cls.all_gardens)}")
 
         scores = "Garden scores - "
         first = True
         for k in cls.all_gardens:
             if not first:
                 scores += ", "
-            scores += f"{k}: {cls.all_gardens[k].stats.calculate_score()}"
+            scores += f"{k}: {cls.all_gardens[k].stats._calculate_score()}"
             first = False
         print(scores)
         print(f"Total gardens managed: {cls.total_gardens}")
 
     @staticmethod
-    def validate_height(gardens: dict) -> bool:
+    def _validate_height(gardens: dict) -> bool:
         """Static method - validate all plants have positive heights."""
         for g in gardens:
             for k in gardens[g].plants:
